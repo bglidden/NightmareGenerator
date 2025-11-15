@@ -1,0 +1,18 @@
+{
+    "name": "AHP.Editor",
+    "rootNamespace": "AHP.Editor",
+    "references": [
+        "GUID:a0851dfa9e1d23049a42afac12268730"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
