@@ -35,6 +35,17 @@ namespace AHP.Editor
                 }
             }
 
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField("Placement Controls", EditorStyles.boldLabel);
+
+            GUI.enabled = generator.LastLayout != null;
+            if (GUILayout.Button("Build Placement", GUILayout.Height(30)))
+            {
+                generator.BuildPlacement();
+                SceneView.RepaintAll();
+            }
+            GUI.enabled = true;
+
             // Display last log
             if (!string.IsNullOrEmpty(generator.LastLog))
             {
