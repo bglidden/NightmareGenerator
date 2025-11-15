@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace AHP
 {
-    public class GridGenerator : MonoBehaviour
+    public partial class GridGenerator : MonoBehaviour
     {
         [Header("Configuration")]
         public GridConfig Config;
