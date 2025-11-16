@@ -39,11 +39,30 @@ namespace AHP.Editor
             EditorGUILayout.LabelField("Placement Controls", EditorStyles.boldLabel);
 
             GUI.enabled = generator.LastLayout != null;
-            if (GUILayout.Button("Build Placement", GUILayout.Height(30)))
+            
+            using (new EditorGUILayout.HorizontalScope())
             {
+                if (GUILayout.Button("Build Placement", GUILayout.Height(30)))
+                {
+                    generator.BuildPlacement();
+                    SceneView.RepaintAll();
+                }
+
+                if (GUILayout.Button("Apply Theme", GUILayout.Height(30)))
+                {
+                    generator.ApplyTheme();
+                    SceneView.RepaintAll();
+                }
+            }
+
+            if (GUILayout.Button("Full Generation (Layout + Placement + Theme)", GUILayout.Height(40)))
+            {
+                generator.GenerateLayout();
                 generator.BuildPlacement();
+                generator.ApplyTheme();
                 SceneView.RepaintAll();
             }
+
             GUI.enabled = true;
 
             // Display last log
