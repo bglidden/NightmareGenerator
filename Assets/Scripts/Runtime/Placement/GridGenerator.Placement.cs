@@ -1,4 +1,5 @@
 using UnityEngine;
+using AHP.Rules;
 
 namespace AHP
 {
@@ -6,6 +7,7 @@ namespace AHP
     {
         [Header("Placement")]
         public PrefabSet Prefabs;
+        public RuleSet Rules;
         public Transform PlacementRoot;
         public bool SpawnWalls = true;
 
@@ -24,7 +26,6 @@ namespace AHP
                 return;
             }
 
-            // Auto-create root if needed
             if (PlacementRoot == null)
             {
                 var rootObj = new GameObject("~Generated");
@@ -32,7 +33,7 @@ namespace AHP
                 PlacementRoot = rootObj.transform;
             }
 
-            var pass = new PlacementPass(Config, Rng, LastLayout, Prefabs, PlacementRoot);
+            var pass = new PlacementPass(Config, Rng, LastLayout, Prefabs, PlacementRoot, Rules);
             pass.Build(SpawnWalls);
 
             Debug.Log("[AHP] Placement complete.");

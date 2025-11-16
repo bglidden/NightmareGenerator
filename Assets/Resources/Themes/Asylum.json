@@ -1,0 +1,30 @@
+{
+  "ThemeName": "Asylum",
+  "Description": "Decaying mental institution with flickering lights",
+  "Colors": {
+    "FloorBase": { "r": 0.2, "g": 0.22, "b": 0.18, "a": 1.0 },
+    "WallBase": { "r": 0.35, "g": 0.38, "b": 0.32, "a": 1.0 },
+    "PropBase": { "r": 0.25, "g": 0.2, "b": 0.15, "a": 1.0 },
+    "AmbientLight": { "r": 0.15, "g": 0.18, "b": 0.12, "a": 1.0 }
+  },
+  "Lighting": {
+    "GlobalIntensity": 0.35,
+    "DirectionalColor": { "r": 0.9, "g": 0.95, "b": 0.85, "a": 1.0 },
+    "ShadowStrength": 0.85,
+    "BloomIntensity": 0.25,
+    "Exposure": 0.7
+  },
+  "Fog": {
+    "EnableFog": true,
+    "FogColor": { "r": 0.08, "g": 0.09, "b": 0.07, "a": 1.0 },
+    "Density": 0.035,
+    "StartDistance": 3.0,
+    "EndDistance": 35.0
+  },
+  "Audio": {
+    "AmbienceClipName": "asylum_ambience",
+    "AmbienceVolume": 0.4,
+    "TensionClipName": "distant_screams",
+    "TensionVolume": 0.15
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "ThemeName": "Cursed Manor",
+  "Description": "Victorian mansion with warm candlelight and deep shadows",
+  "Colors": {
+    "FloorBase": { "r": 0.25, "g": 0.18, "b": 0.12, "a": 1.0 },
+    "WallBase": { "r": 0.35, "g": 0.25, "b": 0.18, "a": 1.0 },
+    "PropBase": { "r": 0.3, "g": 0.2, "b": 0.15, "a": 1.0 },
+    "AmbientLight": { "r": 0.25, "g": 0.15, "b": 0.08, "a": 1.0 }
+  },
+  "Lighting": {
+    "GlobalIntensity": 0.4,
+    "DirectionalColor": { "r": 1.0, "g": 0.7, "b": 0.4, "a": 1.0 },
+    "ShadowStrength": 0.95,
+    "BloomIntensity": 0.35,
+    "Exposure": 0.75
+  },
+  "Fog": {
+    "EnableFog": true,
+    "FogColor": { "r": 0.1, "g": 0.08, "b": 0.06, "a": 1.0 },
+    "Density": 0.025,
+    "StartDistance": 5.0,
+    "EndDistance": 45.0
+  },
+  "Audio": {
+    "AmbienceClipName": "manor_wind",
+    "AmbienceVolume": 0.3,
+    "TensionClipName": "whispers",
+    "TensionVolume": 0.25
+  }
+}

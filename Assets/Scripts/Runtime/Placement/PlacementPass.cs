@@ -1,4 +1,5 @@
 using UnityEngine;
+using AHP.Rules;
 
 namespace AHP
 {
@@ -9,15 +10,17 @@ namespace AHP
         private readonly LayoutGenerator _layout;
         private readonly PrefabSet _prefabs;
         private readonly Transform _root;
+        private readonly RuleSet _rules;
 
         public PlacementPass(GridConfig cfg, System.Random rng, LayoutGenerator layout, 
-                           PrefabSet prefabs, Transform root)
+                           PrefabSet prefabs, Transform root, RuleSet rules = null)
         {
             _cfg = cfg;
             _rng = rng;
             _layout = layout;
             _prefabs = prefabs;
             _root = root;
+            _rules = rules;
         }
 
         private int Idx(int x, int y) => y * _cfg.Width + x;
@@ -35,7 +38,6 @@ namespace AHP
         private void ClearExisting()
         {
 #if UNITY_EDITOR
-            // Safe for edit mode
             for (int i = _root.childCount - 1; i >= 0; i--)
                 Object.DestroyImmediate(_root.GetChild(i).gameObject);
 #else
@@ -54,6 +56,11 @@ namespace AHP
                     if (cellType == CellType.Empty || cellType == CellType.Blocked)
                         continue;
 
+                    var context = CreateContext(x, y, PrefabCategory.Floor, null);
+                    
+                    if (_rules != null && !_rules.ValidatePlacement(context))
+                        continue;
+
                     var floorPrefab = _prefabs.GetRandom(_rng, PrefabCategory.Floor);
                     if (floorPrefab != null)
                     {
@@ -67,19 +74,16 @@ namespace AHP
 
         private void SpawnWalls()
         {
-            // Track placed walls to avoid duplicates
             var wallsPlaced = new bool[_cfg.Width, _cfg.Height];
 
             for (int x = 0; x < _cfg.Width; x++)
             {
                 for (int y = 0; y < _cfg.Height; y++)
                 {
-                    // Only check non-empty cells for adjacent empties
                     var currentCell = _layout.Cells[Idx(x, y)];
                     if (currentCell == CellType.Empty || currentCell == CellType.Blocked)
                         continue;
 
-                    // Check all 4 neighbors
                     TryPlaceWall(x + 1, y, wallsPlaced);
                     TryPlaceWall(x - 1, y, wallsPlaced);
                     TryPlaceWall(x, y + 1, wallsPlaced);
@@ -92,14 +96,14 @@ namespace AHP
 
         private void TryPlaceWall(int x, int y, bool[,] wallsPlaced)
         {
-            // Check bounds
             if (!In(x, y)) return;
-
-            // Already placed a wall here
             if (wallsPlaced[x, y]) return;
-
-            // Only place walls in empty cells
             if (_layout.Cells[Idx(x, y)] != CellType.Empty) return;
+
+            var context = CreateContext(x, y, PrefabCategory.Wall, null);
+            
+            if (_rules != null && !_rules.ValidatePlacement(context))
+                return;
 
             var wallPrefab = _prefabs.GetRandom(_rng, PrefabCategory.Wall);
             if (wallPrefab == null) return;
@@ -117,6 +121,21 @@ namespace AHP
             foreach (bool placed in wallsPlaced)
                 if (placed) count++;
             return count;
+        }
+
+        private PlacementContext CreateContext(int x, int y, PrefabCategory category, GameObject prefab)
+        {
+            return new PlacementContext
+            {
+                X = x,
+                Y = y,
+                CellType = _layout.Cells[Idx(x, y)],
+                Category = category,
+                Prefab = prefab,
+                Layout = _layout,
+                Config = _cfg,
+                Rng = _rng
+            };
         }
     }
 }
